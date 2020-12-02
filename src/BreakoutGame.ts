@@ -1,0 +1,25 @@
+import { CanvasConfig } from "./engine/configuration/enums";
+import { Game } from "./engine/Game";
+import { BreakoutWorld as World } from "./BreakoutWorld";
+import { Ball, Paddle } from "./entities/index";
+
+export class BreakoutGame extends Game {
+  public setup() {
+    const paddle = new Paddle();
+    const ball = new Ball({
+      color: "#3f51b5",
+    });
+
+    paddle.setPos(
+      CanvasConfig.width / 2 - paddle.width / 2,
+      CanvasConfig.height - paddle.height - 40
+    );
+    ball.setPos(paddle.y - 10, paddle.x + paddle.width / 2);
+
+    this.world = new World();
+
+    this.addEntity(ball);
+    this.addEntity(paddle);
+    this.addManyEntities(this.world.walls);
+  }
+}
