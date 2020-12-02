@@ -1,6 +1,6 @@
 import { IDeltaTracker } from "./configuration/interfaces";
 
-class DeltaTracker implements IDeltaTracker {
+export class DeltaTracker implements IDeltaTracker {
   private lastTime: number | null = null;
 
   public getAndUpdateDelta() {
@@ -21,5 +21,3 @@ class DeltaTracker implements IDeltaTracker {
     return new Date().getTime();
   }
 }
-
-export default DeltaTracker;

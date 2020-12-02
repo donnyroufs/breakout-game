@@ -1,5 +1,4 @@
-import { Canvas } from "./engine/Canvas";
-import { Keyboard } from "./engine/Keyboard";
+import { Canvas, Keyboard } from "./engine/index";
 import { BreakoutGame as Game } from "./BreakoutGame";
 
 async function bootstrap() {

@@ -1,5 +1,5 @@
 import { GameUpdateFunction } from "./configuration/types";
-import DeltaTracker from "./DeltaTracker";
+import { DeltaTracker } from "./DeltaTracker";
 
 export class GameLoop {
   private updateFunction: GameUpdateFunction;
