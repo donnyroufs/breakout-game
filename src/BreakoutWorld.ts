@@ -1,6 +1,6 @@
 import { CanvasConfig } from "./engine/configuration/enums";
 import { World } from "./engine/World";
-import { Wall } from "./entities/Wall.entity";
+import { Brick } from "./entities/Brick.entity";
 
 export class BreakoutWorld extends World {
   public setup() {
@@ -22,18 +22,18 @@ export class BreakoutWorld extends World {
 
       const posX = this.getNextXPos(wallWidth, maxWalls) + wallWidth;
 
-      const wall = new Wall({
+      const brick = new Brick({
         color: "blue",
         x: posX,
         y: rowIndex * 30,
       });
 
-      this.walls.push(wall);
+      this.bricks.push(brick);
     });
   }
 
   private getNextXPos(wallWidth: number, maxWalls: number) {
-    const length = this.walls.length;
+    const length = this.bricks.length;
 
     if (length <= 0) return this.margin - wallWidth;
 
@@ -41,6 +41,6 @@ export class BreakoutWorld extends World {
       return this.margin - wallWidth;
     }
 
-    return this.walls[length - 1].x;
+    return this.bricks[length - 1].x;
   }
 }

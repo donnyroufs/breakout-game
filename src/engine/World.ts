@@ -6,7 +6,7 @@ export abstract class World {
   protected padding: number = 10;
   protected rows: number = 5;
 
-  public walls: Entity[] = [];
+  public bricks: Entity[] = [];
 
   constructor() {
     this.setup();

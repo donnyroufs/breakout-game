@@ -14,12 +14,12 @@ export class BreakoutGame extends Game {
       CanvasConfig.width / 2 - paddle.width / 2,
       CanvasConfig.height - paddle.height - 40
     );
-    ball.setPos(paddle.y - 10, paddle.x + paddle.width / 2);
+    ball.setPos(paddle.x + paddle.width / 2, paddle.y - paddle.height / 2);
 
     this.world = new World();
 
     this.addEntity(ball);
     this.addEntity(paddle);
-    this.addManyEntities(this.world.walls);
+    this.addManyEntities(this.world.bricks);
   }
 }

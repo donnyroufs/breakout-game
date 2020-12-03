@@ -1,3 +1,4 @@
+import { SandboxGame } from "./SandboxGame";
 import { Canvas, Keyboard } from "./engine/index";
 import { BreakoutGame as Game } from "./BreakoutGame";
 
@@ -14,6 +15,7 @@ async function bootstrap() {
   const ctx = canvas.setup();
 
   const game = new Game(ctx, keyboard);
+  // const game = new SandboxGame(ctx, keyboard);
 
   game.run();
 }

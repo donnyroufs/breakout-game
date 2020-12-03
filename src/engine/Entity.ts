@@ -19,6 +19,8 @@ export class Entity implements IEntity {
   public height: number;
   public color: string;
 
+  public hasCollision: boolean = false;
+
   constructor({
     x = 0,
     y = 0,
@@ -33,16 +35,8 @@ export class Entity implements IEntity {
     this.color = color;
   }
 
-  update({}: IGameData, delta: number) {}
-
-  public handleCollision({ type, dir }: ICollisionData, delta?: number) {
-    if (type === CollisionType.canvas) {
-      if (dir === CollisionDir.right) {
-        this.x = CanvasConfig.width - this.width;
-      } else {
-        this.x = 0;
-      }
-    }
+  update({}: IGameData, delta: number) {
+    this.onCollideCanvas();
   }
 
   public draw(ctx: CanvasRenderingContext2D) {
@@ -53,5 +47,13 @@ export class Entity implements IEntity {
   public setPos(x: number, y: number) {
     this.x = x;
     this.y = y;
+  }
+
+  protected onCollideCanvas() {
+    if (this.x + this.width >= CanvasConfig.width) {
+      this.x = CanvasConfig.width - this.width;
+    } else if (this.x <= 0) {
+      this.x = 0;
+    }
   }
 }

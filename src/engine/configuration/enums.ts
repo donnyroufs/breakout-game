@@ -5,7 +5,6 @@ export enum CanvasConfig {
 }
 
 export enum CollisionType {
-  canvas,
   entity,
 }
 

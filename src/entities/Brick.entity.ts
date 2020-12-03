@@ -1,7 +1,7 @@
 import { IEntityOptions } from "../engine/configuration/interfaces";
 import { Entity } from "../engine/Entity";
 
-export class Wall extends Entity {
+export class Brick extends Entity {
   constructor(props: IEntityOptions) {
     super(props);
 

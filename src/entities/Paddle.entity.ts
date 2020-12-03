@@ -18,6 +18,8 @@ export class Paddle extends Entity {
   }
 
   update({ keyboard }: IGameData, delta: number) {
+    this.onCollideCanvas();
+
     this.velX = 0;
     this.move(keyboard, delta);
   }

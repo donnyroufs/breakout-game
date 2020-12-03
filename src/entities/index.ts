@@ -1,5 +1,5 @@
 import { Ball } from "./Ball.entity";
 import { Paddle } from "./Paddle.entity";
-import { Wall } from "./Wall.entity";
+import { Brick } from "./Brick.entity";
 
-export { Ball, Paddle, Wall };
+export { Ball, Paddle, Brick };
