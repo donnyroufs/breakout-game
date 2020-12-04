@@ -1,3 +1,4 @@
+import { Paddle } from "./Paddle.entity";
 import { CanvasConfig } from "../engine/configuration/enums";
 import { CollisionDir, CollisionType } from "../engine/configuration/enums";
 import { IGameData, ICollisionData } from "../engine/configuration/interfaces";
@@ -7,21 +8,42 @@ export class Ball extends Entity {
   private radius: number = 10;
   private speed: number = 300;
   private dx: number = this.speed;
-  private dy: number = -this.speed;
+  private dy: number = -205;
 
   public hasCollision: boolean = false;
   public width: number = this.radius * 2;
 
-  update(gameData: IGameData, delta: number) {
+  update({ entities }: IGameData, delta: number) {
     this.onCollideCanvas();
 
-    this.x += this.dx * delta;
-    this.y += this.dy * delta;
+    entities.forEach((entity: Entity) => {
+      if (this === entity) return;
+
+      if (
+        this.pos.x > entity.pos.x &&
+        this.pos.x < entity.pos.x + entity.width &&
+        this.pos.y > entity.pos.y &&
+        this.pos.y < entity.pos.y + entity.height
+      ) {
+        this.dy = -this.dy;
+
+        if (entity instanceof Paddle) {
+          return;
+        }
+
+        // remove brick
+        const index = entities.findIndex((obj) => obj === entity);
+        entities.splice(index, 1);
+      }
+    });
+
+    this.pos.x += this.dx * delta;
+    this.pos.y += this.dy * delta;
   }
 
   draw(ctx: CanvasRenderingContext2D) {
     ctx.beginPath();
-    ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+    ctx.arc(this.pos.x, this.pos.y, this.radius, 0, 2 * Math.PI);
     ctx.fillStyle = this.color;
     ctx.fill();
     ctx.closePath();
@@ -29,15 +51,22 @@ export class Ball extends Entity {
 
   protected onCollideCanvas() {
     if (
-      this.x + this.radius > CanvasConfig.width - this.radius ||
-      this.x - this.radius < this.radius
+      this.pos.x + this.radius > CanvasConfig.width - this.radius ||
+      this.pos.x - this.radius < this.radius
     ) {
       this.dx = -this.dx;
     } else if (
-      this.y - this.radius < 0 ||
-      this.y + this.radius > CanvasConfig.height
+      this.pos.y - this.radius < 0 ||
+      this.pos.y + this.radius > CanvasConfig.height
     ) {
       this.dy = -this.dy;
     }
+  }
+
+  private calculateDistance(entityA: Entity, entityB: Entity) {
+    const distanceX = entityB.pos.x - entityB.pos.x;
+    const distanceY = entityB.pos.y - entityA.pos.y;
+
+    return Math.sqrt(Math.pow(distanceX, 2) + Math.pow(distanceY, 2));
   }
 }

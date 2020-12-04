@@ -1,4 +1,5 @@
-import { Entity } from "@/entities/Entity";
+import { Entity } from "../Entity";
+import { Vec2 } from "../math/Vec2";
 import { CollisionType, CollisionDir } from "./enums";
 
 export interface IKeyboard {
@@ -10,6 +11,7 @@ export interface IKeyboard {
 export interface IGameData {
   ctx: CanvasRenderingContext2D;
   keyboard: IKeyboard;
+  entities: Entity[];
 }
 
 export interface IDeltaTracker {

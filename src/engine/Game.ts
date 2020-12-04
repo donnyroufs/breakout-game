@@ -15,6 +15,7 @@ export abstract class Game {
     this.gameData = {
       ctx,
       keyboard,
+      entities: this.entities,
     };
 
     this.setup();
@@ -32,7 +33,7 @@ export abstract class Game {
 
     this.entities.forEach((entity) => {
       entity.update(this.gameData, delta);
-      // this.collisionHandler.checkCollision(entity, this.entities, delta);
+      this.collisionHandler.checkCollision(entity, this.entities, delta);
       entity.draw(this.gameData.ctx);
     });
   }

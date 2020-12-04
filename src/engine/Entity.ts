@@ -1,20 +1,9 @@
-import { v4 } from "uuid";
-import {
-  CollisionDir,
-  CollisionType,
-  CanvasConfig,
-} from "./configuration/enums";
-import {
-  ICollisionData,
-  IEntity,
-  IEntityOptions,
-  IGameData,
-} from "./configuration/interfaces";
+import { Vec2 } from "./math/Vec2";
+import { CanvasConfig } from "./configuration/enums";
+import { IEntity, IEntityOptions, IGameData } from "./configuration/interfaces";
 
 export class Entity implements IEntity {
-  public id: string = v4();
-  public x: number;
-  public y: number;
+  public pos: Vec2;
   public width: number;
   public height: number;
   public color: string;
@@ -28,8 +17,7 @@ export class Entity implements IEntity {
     height = 50,
     color = "red",
   }: IEntityOptions) {
-    this.x = x;
-    this.y = y;
+    this.pos = new Vec2(x, y);
     this.width = width;
     this.height = height;
     this.color = color;
@@ -41,19 +29,19 @@ export class Entity implements IEntity {
 
   public draw(ctx: CanvasRenderingContext2D) {
     ctx.fillStyle = this.color;
-    ctx.fillRect(this.x, this.y, this.width, this.height);
+    ctx.fillRect(this.pos.x, this.pos.y, this.width, this.height);
   }
 
   public setPos(x: number, y: number) {
-    this.x = x;
-    this.y = y;
+    this.pos.x = x;
+    this.pos.y = y;
   }
 
   protected onCollideCanvas() {
-    if (this.x + this.width >= CanvasConfig.width) {
-      this.x = CanvasConfig.width - this.width;
-    } else if (this.x <= 0) {
-      this.x = 0;
+    if (this.pos.x + this.width >= CanvasConfig.width) {
+      this.pos.x = CanvasConfig.width - this.width;
+    } else if (this.pos.x <= 0) {
+      this.pos.x = 0;
     }
   }
 }

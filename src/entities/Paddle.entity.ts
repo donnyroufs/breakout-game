@@ -7,7 +7,7 @@ import {
 
 export class Paddle extends Entity {
   private velX: number = 0;
-  private speed: number = 200;
+  private speed: number = 300;
 
   constructor(props: IEntityOptions = {}) {
     super(props);
@@ -18,10 +18,9 @@ export class Paddle extends Entity {
   }
 
   update({ keyboard }: IGameData, delta: number) {
-    this.onCollideCanvas();
-
     this.velX = 0;
     this.move(keyboard, delta);
+    this.onCollideCanvas();
   }
 
   protected move(keyboard: IKeyboard, delta: number) {
@@ -33,16 +32,11 @@ export class Paddle extends Entity {
       this.velX = this.speed * delta;
     }
 
-    this.x += this.velX;
-  }
-
-  public setup({ x, y }: { x: number; y: number }) {
-    this.x = x;
-    this.y = y;
+    this.pos.x += this.velX;
   }
 
   public draw(ctx: CanvasRenderingContext2D) {
     ctx.fillStyle = this.color;
-    ctx.fillRect(this.x, this.y, this.width, this.height);
+    ctx.fillRect(this.pos.x, this.pos.y, this.width, this.height);
   }
 }

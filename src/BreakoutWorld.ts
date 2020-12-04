@@ -41,6 +41,6 @@ export class BreakoutWorld extends World {
       return this.margin - wallWidth;
     }
 
-    return this.bricks[length - 1].x;
+    return this.bricks[length - 1].pos.x;
   }
 }
