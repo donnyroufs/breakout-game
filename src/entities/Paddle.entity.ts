@@ -1,3 +1,4 @@
+import { Vec2 } from "./../engine/math/Vec2";
 import { Entity } from "../engine/Entity";
 import {
   IKeyboard,
@@ -6,7 +7,7 @@ import {
 } from "../engine/configuration/interfaces";
 
 export class Paddle extends Entity {
-  private velX: number = 0;
+  private vel: Vec2 = new Vec2(0, 0);
   private speed: number = 300;
 
   constructor(props: IEntityOptions = {}) {
@@ -18,21 +19,22 @@ export class Paddle extends Entity {
   }
 
   update({ keyboard }: IGameData, delta: number) {
-    this.velX = 0;
     this.move(keyboard, delta);
     this.onCollideCanvas();
   }
 
   protected move(keyboard: IKeyboard, delta: number) {
+    const clonedVel = this.vel.clone();
+
     if (keyboard.isAnyKeyPressed(["a"])) {
-      this.velX = -(this.speed * delta);
+      clonedVel.sub(this.speed * delta);
     }
 
     if (keyboard.isAnyKeyPressed(["d"])) {
-      this.velX = this.speed * delta;
+      clonedVel.sub(-(this.speed * delta));
     }
 
-    this.pos.x += this.velX;
+    this.pos.add(clonedVel);
   }
 
   public draw(ctx: CanvasRenderingContext2D) {

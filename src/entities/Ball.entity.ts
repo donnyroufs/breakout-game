@@ -1,3 +1,4 @@
+import { Vec2 } from "./../engine/math/Vec2";
 import { Paddle } from "./Paddle.entity";
 import { CanvasConfig } from "../engine/configuration/enums";
 import { IGameData } from "../engine/configuration/interfaces";
@@ -5,39 +6,16 @@ import { Entity } from "../engine/Entity";
 
 export class Ball extends Entity {
   private radius: number = 10;
-  private speed: number = 300;
-  private dx: number = this.speed;
-  private dy: number = -205;
+  private speed: number = 15;
+  private vel: Vec2 = new Vec2(this.speed, -this.speed);
 
-  public hasCollision: boolean = false;
-  public width: number = this.radius * 2;
-
-  update({ entities }: IGameData, delta: number) {
+  update({}: IGameData, delta: number) {
     this.onCollideCanvas();
 
-    entities.forEach((entity: Entity) => {
-      if (this === entity) return;
+    const clonedVel = this.vel.clone();
 
-      if (
-        this.pos.x > entity.pos.x &&
-        this.pos.x < entity.pos.x + entity.width &&
-        this.pos.y > entity.pos.y &&
-        this.pos.y < entity.pos.y + entity.height
-      ) {
-        this.dy = -this.dy;
-
-        if (entity instanceof Paddle) {
-          return;
-        }
-
-        // remove brick
-        const index = entities.findIndex((obj) => obj === entity);
-        entities.splice(index, 1);
-      }
-    });
-
-    this.pos.x += this.dx * delta;
-    this.pos.y += this.dy * delta;
+    clonedVel.mult(delta * this.speed);
+    this.pos.add(clonedVel);
   }
 
   draw(ctx: CanvasRenderingContext2D) {
@@ -50,15 +28,15 @@ export class Ball extends Entity {
 
   protected onCollideCanvas() {
     if (
-      this.pos.x + this.radius > CanvasConfig.width - this.radius ||
-      this.pos.x - this.radius < this.radius
+      this.pos.x > CanvasConfig.width - this.radius ||
+      this.pos.x - this.radius < 0
     ) {
-      this.dx = -this.dx;
+      this.vel.reverseX();
     } else if (
       this.pos.y - this.radius < 0 ||
       this.pos.y + this.radius > CanvasConfig.height
     ) {
-      this.dy = -this.dy;
+      this.vel.reverseY();
     }
   }
 }
