@@ -1,12 +1,12 @@
 import { Vec2 } from "./../engine/math/Vec2";
-import { Entity } from "../engine/Entity";
+import { CollideableEntity } from "../engine/index";
 import {
   IKeyboard,
   IEntityOptions,
   IGameData,
 } from "../engine/configuration/interfaces";
 
-export class Paddle extends Entity {
+export class Paddle extends CollideableEntity {
   private vel: Vec2 = new Vec2(0, 0);
   private speed: number = 300;
 
@@ -18,9 +18,9 @@ export class Paddle extends Entity {
     this.height = 20;
   }
 
-  update({ keyboard }: IGameData, delta: number) {
+  update({ keyboard, canvasWidth }: IGameData, delta: number) {
     this.move(keyboard, delta);
-    this.onCollideCanvas();
+    this.onCollideCanvas(canvasWidth);
   }
 
   protected move(keyboard: IKeyboard, delta: number) {

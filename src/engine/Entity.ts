@@ -1,5 +1,4 @@
 import { Vec2 } from "./math/Vec2";
-import { CanvasConfig } from "./configuration/enums";
 import { IEntity, IEntityOptions, IGameData } from "./configuration/interfaces";
 
 export class Entity implements IEntity {
@@ -7,8 +6,6 @@ export class Entity implements IEntity {
   public width: number;
   public height: number;
   public color: string;
-
-  public hasCollision: boolean = false;
 
   constructor({
     x = 0,
@@ -23,9 +20,7 @@ export class Entity implements IEntity {
     this.color = color;
   }
 
-  update({}: IGameData, delta: number) {
-    this.onCollideCanvas();
-  }
+  public update({}: IGameData, delta: number) {}
 
   public draw(ctx: CanvasRenderingContext2D) {
     ctx.fillStyle = this.color;
@@ -35,13 +30,5 @@ export class Entity implements IEntity {
   public setPos(x: number, y: number) {
     this.pos.x = x;
     this.pos.y = y;
-  }
-
-  protected onCollideCanvas() {
-    if (this.pos.x + this.width >= CanvasConfig.width) {
-      this.pos.x = CanvasConfig.width - this.width;
-    } else if (this.pos.x <= 0) {
-      this.pos.x = 0;
-    }
   }
 }

@@ -1,5 +1,3 @@
-import { Entity } from "../Entity";
-
 export interface IKeyboard {
   setup: (canvasEl: HTMLCanvasElement) => void;
   keyPressed: (key: string) => boolean;
@@ -9,7 +7,8 @@ export interface IKeyboard {
 export interface IGameData {
   ctx: CanvasRenderingContext2D;
   keyboard: IKeyboard;
-  entities: Entity[];
+  canvasHeight: number;
+  canvasWidth: number;
 }
 
 export interface IDeltaTracker {

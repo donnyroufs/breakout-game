@@ -13,7 +13,8 @@ export abstract class Game {
     this.gameData = {
       ctx,
       keyboard,
-      entities: this.entities,
+      canvasHeight: CanvasConfig.height as number,
+      canvasWidth: CanvasConfig.width as number
     };
 
     this.setup();
@@ -34,9 +35,9 @@ export abstract class Game {
   public abstract setup(): void;
 
   private render() {
-    const { ctx } = this.gameData;
+    const { ctx, canvasHeight, canvasWidth } = this.gameData;
 
-    ctx.clearRect(0, 0, CanvasConfig.width, CanvasConfig.height);
+    ctx.clearRect(0, 0, canvasWidth, canvasHeight);
     this.entities.forEach((entity) => entity.draw(ctx));
   }
 

@@ -1,4 +1,4 @@
-import { Entity } from "./Entity";
+import { CollideableEntity } from "./CollideableEntity";
 
 export abstract class World {
   protected width: number = 0;
@@ -6,7 +6,7 @@ export abstract class World {
   protected padding: number = 10;
   protected rows: number = 5;
 
-  public bricks: Entity[] = [];
+  public bricks: CollideableEntity[] = [];
 
   constructor() {
     this.setup();

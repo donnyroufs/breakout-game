@@ -1,10 +1,9 @@
 import { Vec2 } from "./../engine/math/Vec2";
-import { Paddle } from "./Paddle.entity";
 import { CanvasConfig } from "../engine/configuration/enums";
 import { IGameData } from "../engine/configuration/interfaces";
-import { Entity } from "../engine/Entity";
+import { CollideableEntity } from "../engine/index";
 
-export class Ball extends Entity {
+export class Ball extends CollideableEntity {
   private radius: number = 10;
   private speed: number = 15;
   private vel: Vec2 = new Vec2(this.speed, -this.speed);

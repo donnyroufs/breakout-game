@@ -1,7 +1,7 @@
 import { IEntityOptions } from "../engine/configuration/interfaces";
-import { Entity } from "../engine/Entity";
+import { CollideableEntity } from "../engine/index";
 
-export class Brick extends Entity {
+export class Brick extends CollideableEntity {
   constructor(props: IEntityOptions) {
     super(props);
 
