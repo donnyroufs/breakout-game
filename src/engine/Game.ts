@@ -1,4 +1,3 @@
-import { CollisionHandler } from "./CollisionHandler";
 import { World } from "./World";
 import { Entity } from "./Entity";
 import { GameLoop } from "./GameLoop";
@@ -9,7 +8,6 @@ export abstract class Game {
   private gameData: IGameData;
   private entities: Entity[] = [];
   protected world!: World;
-  protected collisionHandler: CollisionHandler = new CollisionHandler();
 
   constructor(ctx: CanvasRenderingContext2D, keyboard: IKeyboard) {
     this.gameData = {
@@ -30,20 +28,16 @@ export abstract class Game {
   }
 
   private update(delta: number) {
-    const { ctx } = this.gameData;
-
-    ctx.clearRect(0, 0, CanvasConfig.width, CanvasConfig.height);
-
-    this.entities.forEach((entity) => {
-      entity.update(this.gameData, delta);
-      this.collisionHandler.checkCollision(entity, this.entities, delta);
-    });
+    this.entities.forEach((entity) => entity.update(this.gameData, delta));
   }
 
   public abstract setup(): void;
 
   private render() {
-    this.entities.forEach((entity) => entity.draw(this.gameData.ctx));
+    const { ctx } = this.gameData;
+
+    ctx.clearRect(0, 0, CanvasConfig.width, CanvasConfig.height);
+    this.entities.forEach((entity) => entity.draw(ctx));
   }
 
   protected addEntity(entity: Entity) {

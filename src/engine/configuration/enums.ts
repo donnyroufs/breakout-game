@@ -3,14 +3,3 @@ export enum CanvasConfig {
   width = 800,
   border = "1px solid black",
 }
-
-export enum CollisionType {
-  entity,
-}
-
-export enum CollisionDir {
-  top,
-  right,
-  bottom,
-  left,
-}

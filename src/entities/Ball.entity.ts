@@ -1,7 +1,6 @@
 import { Paddle } from "./Paddle.entity";
 import { CanvasConfig } from "../engine/configuration/enums";
-import { CollisionDir, CollisionType } from "../engine/configuration/enums";
-import { IGameData, ICollisionData } from "../engine/configuration/interfaces";
+import { IGameData } from "../engine/configuration/interfaces";
 import { Entity } from "../engine/Entity";
 
 export class Ball extends Entity {
@@ -61,12 +60,5 @@ export class Ball extends Entity {
     ) {
       this.dy = -this.dy;
     }
-  }
-
-  private calculateDistance(entityA: Entity, entityB: Entity) {
-    const distanceX = entityB.pos.x - entityB.pos.x;
-    const distanceY = entityB.pos.y - entityA.pos.y;
-
-    return Math.sqrt(Math.pow(distanceX, 2) + Math.pow(distanceY, 2));
   }
 }
