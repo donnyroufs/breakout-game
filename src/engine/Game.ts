@@ -22,7 +22,10 @@ export abstract class Game {
   }
 
   run() {
-    const gameLoop = new GameLoop(this.update.bind(this));
+    const gameLoop = new GameLoop(
+      this.update.bind(this),
+      this.render.bind(this)
+    );
     gameLoop.run();
   }
 
@@ -34,11 +37,14 @@ export abstract class Game {
     this.entities.forEach((entity) => {
       entity.update(this.gameData, delta);
       this.collisionHandler.checkCollision(entity, this.entities, delta);
-      entity.draw(this.gameData.ctx);
     });
   }
 
   public abstract setup(): void;
+
+  private render() {
+    this.entities.forEach((entity) => entity.draw(this.gameData.ctx));
+  }
 
   protected addEntity(entity: Entity) {
     this.entities.push(entity);

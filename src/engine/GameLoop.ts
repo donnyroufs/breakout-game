@@ -1,12 +1,13 @@
-import { GameUpdateFunction } from "./configuration/types";
+import { GameRenderFunction, GameUpdateFunction } from "./configuration/types";
 import { DeltaTracker } from "./DeltaTracker";
 
 export class GameLoop {
-  private updateFunction: GameUpdateFunction;
   private deltaTracker: DeltaTracker;
 
-  constructor(updateFunction: GameUpdateFunction) {
-    this.updateFunction = updateFunction;
+  constructor(
+    private updateFunction: GameUpdateFunction,
+    private renderFunction: GameRenderFunction
+  ) {
     this.deltaTracker = new DeltaTracker();
   }
 
@@ -18,6 +19,7 @@ export class GameLoop {
     const delta = this.deltaTracker.getAndUpdateDelta();
 
     this.updateFunction(delta);
+    this.renderFunction();
 
     window.requestAnimationFrame(this.loop.bind(this));
   }
