@@ -1,15 +1,17 @@
+import { CollideableEntity } from "./CollideableEntity";
 import { World } from "./World";
 import { Entity } from "./Entity";
 import { GameLoop } from "./GameLoop";
 import { IGameData, IKeyboard } from "./configuration/interfaces";
 import { CanvasConfig } from "./configuration/enums";
-import { CollideableEntity } from "./index";
 
-const DEBUG = false;
+const DEBUG = true;
 
 export abstract class Game {
   private gameData: IGameData;
   private entities: Entity[] = [];
+  private collideableEntities: CollideableEntity[] = [];
+
   protected world!: World;
 
   constructor(ctx: CanvasRenderingContext2D, keyboard: IKeyboard) {
@@ -18,6 +20,7 @@ export abstract class Game {
       keyboard,
       canvasHeight: CanvasConfig.height as number,
       canvasWidth: CanvasConfig.width as number,
+      collideableEntities: this.collideableEntities,
     };
 
     this.setup();
@@ -33,6 +36,9 @@ export abstract class Game {
 
   private update(delta: number) {
     this.entities.forEach((entity) => entity.update(this.gameData, delta));
+    this.collideableEntities.forEach((entity) =>
+      entity.update(this.gameData, delta)
+    );
   }
 
   public abstract setup(): void;
@@ -43,20 +49,26 @@ export abstract class Game {
 
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
-    this.entities.forEach((entity) => {
+    this.entities.forEach((entity) => entity.draw(ctx));
+
+    this.collideableEntities.forEach((entity) => {
       entity.draw(ctx);
 
-      if (entity instanceof CollideableEntity && DEBUG) {
+      if (DEBUG) {
         entity.drawCollisionBox(ctx);
       }
     });
   }
 
   protected addEntity(entity: Entity) {
-    this.entities.push(entity);
+    if (entity instanceof CollideableEntity) {
+      this.collideableEntities.push(entity);
+    } else {
+      this.entities.push(entity);
+    }
   }
 
   protected addManyEntities(entities: Entity[]) {
-    entities.forEach((entity) => this.entities.push(entity));
+    entities.forEach((entity) => this.addEntity(entity));
   }
 }

@@ -1,3 +1,4 @@
+import { CollideableEntity } from "../index";
 import { Vec2 } from "../math/Vec2";
 
 export interface IKeyboard {
@@ -11,6 +12,7 @@ export interface IGameData {
   keyboard: IKeyboard;
   canvasHeight: number;
   canvasWidth: number;
+  collideableEntities: CollideableEntity[];
 }
 
 export interface IEntity {

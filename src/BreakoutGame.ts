@@ -17,7 +17,7 @@ export class BreakoutGame extends Game {
     );
     ball.setPos(
       paddle.pos.x + paddle.width / 2,
-      paddle.pos.y - paddle.height / 2
+      paddle.pos.y - paddle.height / 2 - 6
     );
 
     this.world = new World();

@@ -1,7 +1,9 @@
 import { Vec2 } from "./math/Vec2";
 import { IEntity, IEntityOptions, IGameData } from "./configuration/interfaces";
+import { v4 } from "uuid";
 
 export class Entity implements IEntity {
+  public id: string = v4();
   public pos: Vec2;
   public width: number;
   public height: number;
