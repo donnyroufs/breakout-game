@@ -1,3 +1,5 @@
+import { Vec2 } from "../math/Vec2";
+
 export interface IKeyboard {
   setup: (canvasEl: HTMLCanvasElement) => void;
   keyPressed: (key: string) => boolean;
@@ -11,10 +13,6 @@ export interface IGameData {
   canvasWidth: number;
 }
 
-export interface IDeltaTracker {
-  getAndUpdateDelta: () => number;
-}
-
 export interface IEntity {
   update: (gameData: IGameData, delta: number) => void;
 }
@@ -24,9 +22,17 @@ export interface IEntityOptions {
   y?: number;
   width?: number;
   height?: number;
+  radius?: number;
   color?: string;
 }
 
 export interface ICanvas {
   setup: () => CanvasRenderingContext2D;
+}
+
+export interface ICollisionBox {
+  pos: Vec2;
+  width?: number;
+  height?: number;
+  radius?: number;
 }

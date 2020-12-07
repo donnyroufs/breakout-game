@@ -3,6 +3,9 @@ import { Entity } from "./Entity";
 import { GameLoop } from "./GameLoop";
 import { IGameData, IKeyboard } from "./configuration/interfaces";
 import { CanvasConfig } from "./configuration/enums";
+import { CollideableEntity } from "./index";
+
+const DEBUG = false;
 
 export abstract class Game {
   private gameData: IGameData;
@@ -14,13 +17,13 @@ export abstract class Game {
       ctx,
       keyboard,
       canvasHeight: CanvasConfig.height as number,
-      canvasWidth: CanvasConfig.width as number
+      canvasWidth: CanvasConfig.width as number,
     };
 
     this.setup();
   }
 
-  run() {
+  public run() {
     const gameLoop = new GameLoop(
       this.update.bind(this),
       this.render.bind(this)
@@ -34,11 +37,19 @@ export abstract class Game {
 
   public abstract setup(): void;
 
-  private render() {
+  private render(fps: number) {
     const { ctx, canvasHeight, canvasWidth } = this.gameData;
+    window.document.title = `FPS: ${fps}`;
 
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-    this.entities.forEach((entity) => entity.draw(ctx));
+
+    this.entities.forEach((entity) => {
+      entity.draw(ctx);
+
+      if (entity instanceof CollideableEntity && DEBUG) {
+        entity.drawCollisionBox(ctx);
+      }
+    });
   }
 
   protected addEntity(entity: Entity) {

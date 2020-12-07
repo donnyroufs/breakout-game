@@ -8,7 +8,7 @@ import {
 
 export class Paddle extends CollideableEntity {
   private vel: Vec2 = new Vec2(0, 0);
-  private speed: number = 300;
+  private speed: number = 0.4;
 
   constructor(props: IEntityOptions = {}) {
     super(props);

@@ -1,26 +1,34 @@
 import { GameRenderFunction, GameUpdateFunction } from "./configuration/types";
-import { DeltaTracker } from "./DeltaTracker";
-
 export class GameLoop {
-  private deltaTracker: DeltaTracker;
+  private _lastCall: number | null = null;
+  private _accumulator = 0;
+  private _deltaTime = 1 / 60;
 
   constructor(
     private updateFunction: GameUpdateFunction,
     private renderFunction: GameRenderFunction
-  ) {
-    this.deltaTracker = new DeltaTracker();
-  }
+  ) {}
 
   public run() {
-    window.requestAnimationFrame(this.loop.bind(this));
+    if (this._lastCall === null) {
+      this._lastCall = Date.now();
+    }
+
+    let delta = Date.now() - this._lastCall;
+
+    this._lastCall = Date.now();
+    this._accumulator += delta;
+
+    while (this._accumulator >= this._deltaTime) {
+      this.updateFunction(delta / 1000);
+      this._accumulator -= this._deltaTime;
+    }
+
+    this.renderFunction(this.fps);
+    window.requestAnimationFrame(this.run.bind(this));
   }
 
-  private loop() {
-    const delta = this.deltaTracker.getAndUpdateDelta();
-
-    this.updateFunction(delta);
-    this.renderFunction();
-
-    window.requestAnimationFrame(this.loop.bind(this));
+  get fps() {
+    return Math.round(1 / this._deltaTime);
   }
 }

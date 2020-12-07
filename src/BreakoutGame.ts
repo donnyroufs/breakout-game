@@ -8,6 +8,7 @@ export class BreakoutGame extends Game {
     const paddle = new Paddle();
     const ball = new Ball({
       color: "#3f51b5",
+      radius: 10,
     });
 
     paddle.setPos(
